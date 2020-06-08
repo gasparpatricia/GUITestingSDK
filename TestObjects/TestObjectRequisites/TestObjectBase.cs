@@ -243,7 +243,7 @@ namespace GUITestingSDK
                 g.Dispose();
 
             }
-            if (!AutoElement.Current.ControlType.ToString().Equals("Window")) AutoElement.SetFocus();
+            if (!AutoElement.Current.ControlType.ToString().Equals("Label")) AutoElement.SetFocus();
         }
 
         public void Hover()
