@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Test version of the GUITestingSDK for Windows only.</releaseNotes>
+    <copyright>Copyright 2020</copyright>
+    <tags>test tag</tags>
+  </metadata>
+</package>
