@@ -209,7 +209,7 @@ namespace GUITestingSDK
 
         public void Focus()
         {
-            if(!AutoElement.Current.ControlType.ToString().Equals("Window")) AutoElement.SetFocus();
+            if(!AutoElement.Current.ControlType.ToString().Equals("Label")) AutoElement.SetFocus();
 
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
             System.Drawing.Size newSize = new System.Drawing.Size((int)rectangle.Size.Width, (int)rectangle.Size.Height);
