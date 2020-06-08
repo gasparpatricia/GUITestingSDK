@@ -171,6 +171,8 @@ namespace GUITestingSDK
             if (type == null)
                 throw new InvalidOperationException("Object type not found.");
             // hello world
+
+            //hello world v2
             return Activator.CreateInstance(type, testObject);
         }
         
