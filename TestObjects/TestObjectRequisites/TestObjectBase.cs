@@ -21,6 +21,7 @@ namespace GUITestingSDK
         public string AutomationId { get; set; }
         public bool IsEnabled { get; set; }
 
+        public GUIElementType guiElementType;
 
         public TestObjectBase()
         {
@@ -208,8 +209,8 @@ namespace GUITestingSDK
 
         public void Focus()
         {
+            if(!AutoElement.Current.ControlType.ToString().Equals("Window")) AutoElement.SetFocus();
 
-            AutoElement.SetFocus();
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
             System.Drawing.Size newSize = new System.Drawing.Size((int)rectangle.Size.Width, (int)rectangle.Size.Height);
             System.Drawing.Point newPoint = new Point((int)rectangle.X, (int)rectangle.Y);
@@ -242,7 +243,7 @@ namespace GUITestingSDK
                 g.Dispose();
 
             }
-            AutoElement.SetFocus();
+            if (!AutoElement.Current.ControlType.ToString().Equals("Window")) AutoElement.SetFocus();
         }
 
         public void Hover()
