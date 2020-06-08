@@ -209,7 +209,7 @@ namespace GUITestingSDK
 
         public void Focus()
         {
-            if(!AutoElement.Current.ControlType.ToString().Equals("Label")) AutoElement.SetFocus();
+            if (!AutoElement.Current.ControlType.Equals(ControlType.Text)) AutoElement.SetFocus();
 
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
             System.Drawing.Size newSize = new System.Drawing.Size((int)rectangle.Size.Width, (int)rectangle.Size.Height);
@@ -243,7 +243,7 @@ namespace GUITestingSDK
                 g.Dispose();
 
             }
-            if (!AutoElement.Current.ControlType.ToString().Equals("Label")) AutoElement.SetFocus();
+            if (!AutoElement.Current.ControlType.Equals(ControlType.Text)) AutoElement.SetFocus();
         }
 
         public void Hover()
