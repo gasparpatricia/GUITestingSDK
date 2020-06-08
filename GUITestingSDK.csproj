@@ -60,6 +60,7 @@
     <Compile Include="TestObjects\TestObjectRequisites\GUIElementType.cs" />
     <Compile Include="TestObjects\GUIObject.cs" />
     <Compile Include="Exceptions\GUIObjectNotFoundException.cs" />
+    <Compile Include="TestSDK.cs" />
     <Compile Include="Utils\GUITesting.cs" />
     <Compile Include="Exceptions\GUITestingException.cs" />
     <Compile Include="TestObjects\HyperLink.cs" />
