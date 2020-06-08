@@ -18,18 +18,18 @@ namespace GUITestingSDK
         static CheckBox checkBox;
         static Table dataGrid;
         static TableItem dataGridItem1, dataGridItem2, dataGridItem3, dataGridItem4;
-        GUIObject gUIObject;
-        HyperLink hyperLink;
-        Label label;
-        List list;
-        ListItem listItem1, listItem2, listItem3, listItem4;
-        Menu menu;
+        static GUIObject gUIObject;
+        static HyperLink hyperLink;
+        static Label label;
+        static List list;
+        static ListItem listItem1, listItem2, listItem3, listItem4;
+        static Menu menu;
         //MenuItem menuItem;
-        RadioButton radioButton1, radioButton2;
-        Slider slider;
-        Tab tab;
-        Tree tree;
-        TreeItem treeItem;
+        static RadioButton radioButton1, radioButton2;
+        static Slider slider;
+        static Tab tab;
+        static Tree tree;
+        static TreeItem treeItem;
         static Window window;
         static List<TestObjectBase> objects = new List<TestObjectBase>();
 
@@ -37,7 +37,7 @@ namespace GUITestingSDK
         public static void LaunchApp(TestContext testContext)
         {
             //Launch Application
-            GUITesting.LaunchApplication("C:\\Users\\ptrcg\\source\\repos\\WinFormsTestApp\\bin\\Release\\WinFormsTestApp.exe");
+            GUITesting.LaunchApplication("..\\..\\TestApplications\\WinFormsTestApp.exe");
 
             //Finding the test objects and adding them to a list to execute the common methods in bulk
 
@@ -63,13 +63,13 @@ namespace GUITestingSDK
             //objects.Add(dataGridItem1);
             //objects.Add(dataGridItem2);
             //objects.Add(dataGridItem3);
-            //objects.Add(dataGridItem4);
+            //objects.Add(dataGridItem4); does not find them
 
-            //label = window.Find(GUIElementType.Label, automationId: "label1");
-            //objects.Add(label);
+            label = window.Find(GUIElementType.Label, automationId: "label1");
+            objects.Add(label);
 
-            //list = window.Find(GUIElementType.List, automationId: "listBox1");
-            //objects.Add(list);
+            list = window.Find(GUIElementType.List, automationId: "listBox1");
+            objects.Add(list);
         }
 
 
