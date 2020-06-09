@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace GUITestingSDK
 {
-    
+
     public class TestObjectBase// : ITestObjectBase
     {
         public AutomationElement AutoElement { get; set; }
-        public int ProcessId {get;set;}
+        public int ProcessId { get; set; }
         public string Name { get; set; }
         public string AutomationId { get; set; }
         public bool IsEnabled { get; set; }
@@ -29,7 +29,7 @@ namespace GUITestingSDK
             AutomationId = "";
         }
 
-        public TestObjectBase( AutomationElement automationElement = null)
+        public TestObjectBase(AutomationElement automationElement = null)
         {
             AutoElement = automationElement;
             Name = automationElement.Current.Name;
@@ -43,23 +43,37 @@ namespace GUITestingSDK
 
         }
 
-        public dynamic Find(GUIElementType controlType, string name = "", string automationId = "", bool isEnabled = true,  int waitSeconds = 25)
+        public dynamic Find(GUIElementType controlType, string name = "", string automationId = "", bool isEnabled = true, int waitSeconds = 25)
         {
-            
+
             int count = 0;
             AutomationElement childTestObject = null;
 
             Condition[] conditions = ConditionBuilder(controlType: controlType, name: name, automationId: automationId);
-            
-            AndCondition andCondition = new AndCondition(conditions);
 
-            
+            AndCondition andCondition = null;
+
+            if (conditions.Count() == 0) throw new GUITestingException("Can not find GUI element with no given properties.");
+
+            if (conditions.Count() > 1) andCondition = new AndCondition(conditions);
+
+
             do
             {
                 AutoElement = AutomationElement.RootElement.FindFirst(TreeScope.Children, new PropertyCondition(AutomationProperty.LookupById(30002), ProcessId));
                 if (AutoElement != null && childTestObject == null)
                 {
-                    AutomationElementCollection automationElementCollection = AutoElement.FindAll(TreeScope.Subtree, andCondition);
+                    AutomationElementCollection automationElementCollection;
+
+                    if (conditions.Count() > 1)
+                    {
+                        automationElementCollection = AutoElement.FindAll(TreeScope.Descendants, andCondition);
+                    }
+                    else
+                    {
+                        automationElementCollection = AutoElement.FindAll(TreeScope.Descendants, conditions[0]);
+                    }
+
                     if (automationElementCollection.Count > 1)
                     {
                         throw new MultipleObjectsFoundException("More objects with the given properties were matched. Try adding more identification properties.");
@@ -77,14 +91,14 @@ namespace GUITestingSDK
             }
             while (childTestObject == null && count < 10 * waitSeconds);
 
-            if(childTestObject != null)
+            if (childTestObject != null)
             {
                 return CreateByTypeName(controlType, childTestObject);
             }
-            
+
             throw new GUIObjectNotFoundException("No object found with the given properties. Try changing the identification properties.");
         }
-        
+
         private ControlType GetControlType(GUIElementType controlType)
         {
             switch (controlType)
@@ -114,7 +128,7 @@ namespace GUITestingSDK
                     return ControlType.Edit;//must change the logic for specific frameworks
 
                 case GUIElementType.GUIObject:
-                    return ControlType.Custom;
+                    return null;
 
                 case GUIElementType.HyperLink:
                     return ControlType.Hyperlink;
@@ -140,6 +154,9 @@ namespace GUITestingSDK
                 case GUIElementType.TreeItem:
                     return ControlType.TreeItem;
 
+                case GUIElementType.RadioButton:
+                    return ControlType.RadioButton;
+
                 default:
                     return ControlType.Custom;
             }
@@ -148,21 +165,21 @@ namespace GUITestingSDK
         private Condition[] ConditionBuilder(GUIElementType controlType, string name = "", string automationId = "", bool isEnabled = true)
         {
             List<PropertyCondition> conditions = new List<PropertyCondition>();
-            if(name != "")
+            if (name != "")
             {
                 conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30005), name));
             }
-            
-            if(automationId != "")
+
+            if (automationId != "")
             {
                 conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30011), automationId));
             }
 
             ControlType type = GetControlType(controlType);
-                      
-            conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30003), type));
 
-            conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30010), isEnabled));
+            if (type != null) conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30003), type));
+
+            //conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30010), isEnabled)); must treat case of object for which does not apply
 
             return conditions.ToArray();
         }
@@ -179,7 +196,7 @@ namespace GUITestingSDK
 
             return Activator.CreateInstance(type, testObject);
         }
-        
+
 
         public void Click()
         {
@@ -219,8 +236,9 @@ namespace GUITestingSDK
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
             System.Drawing.Size newSize = new System.Drawing.Size((int)rectangle.Size.Width, (int)rectangle.Size.Height);
             System.Drawing.Point newPoint = new Point((int)rectangle.X, (int)rectangle.Y);
-            
-            using (Form form = new Form()) {
+
+            using (Form form = new Form())
+            {
 
                 form.AllowTransparency = true;
                 form.ShowInTaskbar = false;
@@ -237,7 +255,7 @@ namespace GUITestingSDK
                 Graphics g = form.CreateGraphics();
                 System.Drawing.Rectangle drawingRectangle = new System.Drawing.Rectangle(newPoint, newSize);
 
-                for(int i = 0; i <= 2; i++)
+                for (int i = 0; i <= 2; i++)
                 {
                     g.DrawRectangle(greenPen, drawingRectangle);
                     Thread.Sleep(100);
@@ -262,5 +280,5 @@ namespace GUITestingSDK
         }
     }
 
-  
+
 }
