@@ -38,6 +38,11 @@ namespace GUITestingSDK
             ProcessId = automationElement.Current.ProcessId;
         }
 
+        private void InitializeProperties()
+        {
+
+        }
+
         public dynamic Find(GUIElementType controlType, string name = "", string automationId = "", bool isEnabled = true,  int waitSeconds = 25)
         {
             
@@ -178,7 +183,7 @@ namespace GUITestingSDK
 
         public void Click()
         {
-            //System.Windows.Point p = AutoElement.GetClickablePoint();
+            //System.Windows.Point p = AutoElement.GetClickablePoint(); does not work while sharing screen
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
             int x = (int)rectangle.X + (int)rectangle.Width / 2;
             int y = (int)rectangle.Y + (int)rectangle.Height / 2;
@@ -246,13 +251,14 @@ namespace GUITestingSDK
             if (!AutoElement.Current.ControlType.Equals(ControlType.Text)) AutoElement.SetFocus();
         }
 
-        public void Hover()
+        public void Hover(int waitMiliseconds = 1000)
         {
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
             int x = (int)rectangle.X + (int)rectangle.Width / 2;
             int y = (int)rectangle.Y + (int)rectangle.Height / 2;
             System.Drawing.Point point = new System.Drawing.Point(x, y);
             Mouse.MoveTo(point);
+            Thread.Sleep(waitMiliseconds);
         }
     }
 
