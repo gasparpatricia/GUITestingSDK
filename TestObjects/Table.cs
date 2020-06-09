@@ -20,6 +20,7 @@ namespace GUITestingSDK.TestObjects
 
         }
 
+        //Unsupported for WinForms
         public int GetColumnCount()
         {
             GridPattern gridPattern = AutoElement.GetCurrentPattern(GridPattern.Pattern) as GridPattern;
@@ -39,6 +40,7 @@ namespace GUITestingSDK.TestObjects
             return 0;
         }
 
+        //Unsupported for WinForms
         public int GetRowCount()
         {
             GridPattern gridPattern = AutoElement.GetCurrentPattern(GridPattern.Pattern) as GridPattern;
@@ -56,7 +58,8 @@ namespace GUITestingSDK.TestObjects
             }
             return 0;
         }
-        
+
+        //Unsupported for WinForms
         public string[] GetRowHeaders()
         {
             TablePattern tablePattern = AutoElement.GetCurrentPattern(TablePattern.Pattern) as TablePattern;
@@ -73,6 +76,7 @@ namespace GUITestingSDK.TestObjects
             return null;
         }
 
+        //Unsupported for WinForms
         public string[] GetColumnHeaders()
         {
             TablePattern tablePattern = AutoElement.GetCurrentPattern(TablePattern.Pattern) as TablePattern;
@@ -89,6 +93,7 @@ namespace GUITestingSDK.TestObjects
             return null;
         }
 
+        //Unsupported for WinForms
         public TableItem GetItem(int rowindex, int columnIndex)
         {
             GridPattern gridPattern = AutoElement.GetCurrentPattern(GridPattern.Pattern) as GridPattern;

@@ -1,4 +1,5 @@
 ﻿using GUITestingSDK.Exceptions;
+using GUITestingSDK.TestObjects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Windows.Automation;
 
 namespace GUITestingSDK.TestObjects
 {
-    public class TableItem : TestObjectBase
+    public class TableItem : TestObjectBase, IValue
     {
 
         public  TableItem()
@@ -43,7 +44,7 @@ namespace GUITestingSDK.TestObjects
             return false;
         }
 
-        public void SetText(string value)
+        public void SetValue(string value)
         {
             ValuePattern valuePattern = AutoElement.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
             if (valuePattern.Current.IsReadOnly == true)

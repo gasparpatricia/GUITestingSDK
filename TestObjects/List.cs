@@ -20,7 +20,7 @@ namespace GUITestingSDK.TestObjects
 
         public List(AutomationElement element) : base(element)
         {
-
+            FindChildren();
         }
 
         public void Select(int index)
@@ -61,7 +61,7 @@ namespace GUITestingSDK.TestObjects
             {
                 if (AutoElement != null && listItems == null)
                 {
-                    AutomationElementCollection automationElementCollection = AutoElement.FindAll(TreeScope.Children, new PropertyCondition(AutomationProperty.LookupById(30003), ControlType.TabItem));
+                    AutomationElementCollection automationElementCollection = AutoElement.FindAll(TreeScope.Children, new PropertyCondition(AutomationProperty.LookupById(30003), ControlType.ListItem));
 
                     if (automationElementCollection.Count > 0)
                     {
