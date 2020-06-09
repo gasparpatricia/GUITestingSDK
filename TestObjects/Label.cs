@@ -1,13 +1,15 @@
-﻿using System;
+﻿using GUITestingSDK.Exceptions;
+using GUITestingSDK.TestObjects.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.TestObjects
 {
-    public class Label : TestObjectBase
+    public class Label : TestObjectBase, IValue
     {
 
         public Label()
@@ -40,7 +42,7 @@ namespace GUITestingSDK
 
         public bool IsReadOnly()
         {
-            if (AutoElement.Current.FrameworkId == "WinForm") {
+            if (FrameworkId == "WinForm") {
                 return true; 
             }
             else
@@ -54,5 +56,9 @@ namespace GUITestingSDK
             return true;
         }
 
+        public void SetValue(string value)
+        {
+            if(IsReadOnly()) throw new WrongOperationException("Object is read only.");
+        }
     }
 }

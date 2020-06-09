@@ -1,13 +1,15 @@
-﻿using System;
+﻿using GUITestingSDK.Exceptions;
+using GUITestingSDK.TestObjects.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.TestObjects
 {
-    public class Slider : TestObjectBase
+    public class Slider : TestObjectBase, IValue
     {
 
         public Slider()

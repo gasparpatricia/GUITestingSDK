@@ -1,13 +1,15 @@
-﻿using System;
+﻿using GUITestingSDK.Exceptions;
+using GUITestingSDK.TestObjects.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.TestObjects
 {
-    public class Editor : TestObjectBase
+    public class Editor : TestObjectBase, IValue
     {
 
         public Editor()
@@ -19,7 +21,7 @@ namespace GUITestingSDK
 
         }
 
-        public void SetText(string value)
+        public void SetValue(string value)
         {
             ValuePattern valuePattern = AutoElement.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
             if (valuePattern.Current.IsReadOnly == true)
@@ -31,7 +33,7 @@ namespace GUITestingSDK
             
         }
 
-        public string GetText()
+        public string GetValue()
         {
             ValuePattern valuePattern = AutoElement.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;
             if (valuePattern != null)

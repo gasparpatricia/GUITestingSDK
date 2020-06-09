@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GUITestingSDK.TestObjects
+namespace GUITestingSDK.TestObjects.Interfaces
 {
-    public enum ToggleState
+    public interface IGrid
     {
-        Checked, Unchecked
     }
 }

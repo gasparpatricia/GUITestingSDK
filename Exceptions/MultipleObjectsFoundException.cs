@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.Exceptions
 {
     public class MultipleObjectsFoundException : GUITestingException
     {

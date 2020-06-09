@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using GUITestingSDK.TestObjects;
 
 namespace GUITestingSDK
 {
@@ -94,12 +95,26 @@ namespace GUITestingSDK
         }
 
         [TestMethod]
+        public void TestTab()
+        {
+            tab = window.Find(GUIElementType.Tab, automationId: "tabControl1");
+            TestCommonMethods(tab);
+            tab.Select(0);
+            tab.Select(1);
+            tab.Select(0);
+
+            tab.Select("Tree");
+            tab.Select("HyperLink");
+            tab.Select("Tree");
+
+        }
+
+        [TestMethod]
         public void TestRadioButton()
         {
             //radioBox = window.Find(GUIElementType.GUIObject, automationId: "groupBox1", name: "Selection");
 
             radioButton1 = window.Find(GUIElementType.RadioButton, automationId: "radioButton1", name: "Single");
-            //radioButton1 = window.Find(GUIElementType.RadioButton);
             radioButton2 = window.Find(GUIElementType.RadioButton, automationId: "radioButton2", name: "Multiple");
             radioButton3 = window.Find(GUIElementType.RadioButton, automationId: "radioButton3", name: "Multiple Extended");
 
@@ -115,6 +130,7 @@ namespace GUITestingSDK
             testObject.Click();
             testObject.Focus();   
         }
+
 
 
         [ClassCleanup]

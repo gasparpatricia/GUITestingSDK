@@ -1,13 +1,14 @@
-﻿using System;
+﻿using GUITestingSDK.TestObjects.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.TestObjects
 {
-     public class Window : TestObjectBase
+     public class Window : TestObjectBase, IWindow
     {
 
         public Window()

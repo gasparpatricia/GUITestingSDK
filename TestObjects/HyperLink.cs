@@ -1,4 +1,5 @@
 ﻿using GUITestingSDK;
+using GUITestingSDK.TestObjects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.TestObjects
 {
-    public class HyperLink : TestObjectBase
+    public class HyperLink : TestObjectBase, IInvoke
     {
 
         public HyperLink()

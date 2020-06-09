@@ -54,6 +54,15 @@
   <ItemGroup>
     <Compile Include="TestObjects\Button.cs" />
     <Compile Include="TestObjects\CheckBox.cs" />
+    <Compile Include="TestObjects\Interfaces\IGrid.cs" />
+    <Compile Include="TestObjects\Interfaces\IGridItem.cs" />
+    <Compile Include="TestObjects\Interfaces\IInvoke.cs" />
+    <Compile Include="TestObjects\Interfaces\ISelection.cs" />
+    <Compile Include="TestObjects\Interfaces\ISelectionItem.cs" />
+    <Compile Include="TestObjects\Interfaces\ITable.cs" />
+    <Compile Include="TestObjects\Interfaces\IToggle.cs" />
+    <Compile Include="TestObjects\Interfaces\IValue.cs" />
+    <Compile Include="TestObjects\Interfaces\IWindow.cs" />
     <Compile Include="TestObjects\Table.cs" />
     <Compile Include="TestObjects\TableItem.cs" />
     <Compile Include="TestObjects\Editor.cs" />

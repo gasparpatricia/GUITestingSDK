@@ -1,4 +1,5 @@
-﻿using Microsoft.Test.Input;
+﻿using GUITestingSDK.Exceptions;
+using Microsoft.Test.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,10 +11,10 @@ using System.Threading.Tasks;
 using System.Windows.Automation;
 using System.Windows.Forms;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.TestObjects
 {
 
-    public class TestObjectBase// : ITestObjectBase
+    public class TestObjectBase
     {
         public AutomationElement AutoElement { get; set; }
         public int ProcessId { get; set; }
@@ -22,6 +23,8 @@ namespace GUITestingSDK
         public bool IsEnabled { get; set; }
 
         public GUIElementType guiElementType;
+
+        public string FrameworkId { get; set; }
 
         public TestObjectBase()
         {
@@ -36,6 +39,7 @@ namespace GUITestingSDK
             AutomationId = automationElement.Current.AutomationId;
             IsEnabled = automationElement.Current.IsEnabled;
             ProcessId = automationElement.Current.ProcessId;
+            FrameworkId = automationElement.Current.FrameworkId;
         }
 
         private void InitializeProperties()

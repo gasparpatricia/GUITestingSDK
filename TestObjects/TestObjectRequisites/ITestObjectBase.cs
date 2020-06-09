@@ -6,19 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.TestObjects
 {
     public interface ITestObjectBase
     {
 
         //public TestObject Find(GUIElementType controlType, string name = "", string automationId = "", bool isEnabled = false, int waitSeconds = 25);
 
-
-
         void Click();
         void Hover();
 
-        //[DllImport("user32.dll")]
-       // public static extern void Focus();
+
     }
 }
