@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -25,7 +26,8 @@ namespace GUITestingSDK
         static ListItem listItem1, listItem2, listItem3, listItem4;
         static Menu menu;
         //MenuItem menuItem;
-        static RadioButton radioButton1, radioButton2;
+        static GUIObject radioBox;
+        static RadioButton radioButton1, radioButton2, radioButton3;
         static Slider slider;
         static Tab tab;
         static Tree tree;
@@ -70,6 +72,17 @@ namespace GUITestingSDK
 
             list = window.Find(GUIElementType.List, automationId: "listBox1");
             objects.Add(list);
+
+            radioBox = window.Find(GUIElementType.GUIObject, automationId: "groupBox1", name: "Selection");
+
+            radioButton1 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton1", name: "Single");
+            radioButton2 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton2", name: "Multiple");
+            radioButton3 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton3", name: "Multiple Extended");
+
+            objects.Add(radioBox);
+            objects.Add(radioButton1);
+            objects.Add(radioButton2);
+            objects.Add(radioButton3);
         }
 
 
@@ -106,7 +119,8 @@ namespace GUITestingSDK
         [ClassCleanup]
         public static void cleanup()
         {
-            GUITesting.CloseApplication();
+            Thread.Sleep(1000);
+            //GUITesting.CloseApplication();
         }
     }
 
