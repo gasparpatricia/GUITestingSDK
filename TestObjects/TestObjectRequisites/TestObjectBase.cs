@@ -50,8 +50,12 @@ namespace GUITestingSDK
             AutomationElement childTestObject = null;
 
             Condition[] conditions = ConditionBuilder(controlType: controlType, name: name, automationId: automationId);
-            
-            AndCondition andCondition = new AndCondition(conditions);
+
+            AndCondition andCondition = null;
+
+            if (conditions.Count() == 0) throw new GUITestingException("Can not find GUI element with no given properties.");
+
+            if (conditions.Count() > 1) andCondition = new AndCondition(conditions);
 
             
             do
@@ -59,7 +63,17 @@ namespace GUITestingSDK
                 AutoElement = AutomationElement.RootElement.FindFirst(TreeScope.Children, new PropertyCondition(AutomationProperty.LookupById(30002), ProcessId));
                 if (AutoElement != null && childTestObject == null)
                 {
-                    AutomationElementCollection automationElementCollection = AutoElement.FindAll(TreeScope.Subtree, andCondition);
+                    AutomationElementCollection automationElementCollection;
+
+                    if (conditions.Count() > 1)
+                    {
+                        automationElementCollection = AutoElement.FindAll(TreeScope.Descendants, andCondition);
+                    }
+                    else
+                    {
+                        automationElementCollection = AutoElement.FindAll(TreeScope.Descendants, conditions[0]);
+                    }
+
                     if (automationElementCollection.Count > 1)
                     {
                         throw new MultipleObjectsFoundException("More objects with the given properties were matched. Try adding more identification properties.");
@@ -114,7 +128,7 @@ namespace GUITestingSDK
                     return ControlType.Edit;//must change the logic for specific frameworks
 
                 case GUIElementType.GUIObject:
-                    return ControlType.Custom;
+                    return null;
 
                 case GUIElementType.HyperLink:
                     return ControlType.Hyperlink;
@@ -140,6 +154,9 @@ namespace GUITestingSDK
                 case GUIElementType.TreeItem:
                     return ControlType.TreeItem;
 
+                case GUIElementType.RadioButton:
+                    return ControlType.RadioButton;
+
                 default:
                     return ControlType.Custom;
             }
@@ -160,9 +177,9 @@ namespace GUITestingSDK
 
             ControlType type = GetControlType(controlType);
                       
-            conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30003), type));
+            if(type != null) conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30003), type));
 
-            conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30010), isEnabled));
+            //conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30010), isEnabled)); must treat case of object for which does not apply
 
             return conditions.ToArray();
         }
