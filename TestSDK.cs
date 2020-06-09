@@ -46,81 +46,82 @@ namespace GUITestingSDK
             window = UIRoot.Find(name: "GUI Objects For Testing");
             objects.Add(window);
 
+            //button = window.Find(GUIElementType.Button, name: "button1", automationId: "button1");
+            //objects.Add(button);
+
+            //editor = window.Find(GUIElementType.Editor, automationId: "textBox1");
+            //objects.Add(editor);
+
+            //checkBox = window.Find(GUIElementType.CheckBox, automationId: "checkBox1", name: "checkBox1");
+            //objects.Add(checkBox);
+
+            //dataGrid = window.Find(GUIElementType.Table, automationId: "dataGridView1", name: "DataGridView");
+            //objects.Add(dataGrid);
+
+            ////dataGridItem1 = dataGrid.Find(GUIElementType.TableItem, name: "Column1 Row 0");
+            ////dataGridItem2 = dataGrid.Find(GUIElementType.TableItem, name: "Column2 Row 1");
+            ////dataGridItem3 = dataGrid.Find(GUIElementType.TableItem, name: "Column3 Row 2");
+            ////dataGridItem4 = dataGrid.Find(GUIElementType.TableItem, name: "Column1 Row 4");
+            ////objects.Add(dataGridItem1);
+            ////objects.Add(dataGridItem2);
+            ////objects.Add(dataGridItem3);
+            ////objects.Add(dataGridItem4); does not find them
+
+            //label = window.Find(GUIElementType.Label, automationId: "label1");
+            //objects.Add(label);
+
+            //list = window.Find(GUIElementType.List, automationId: "listBox1");
+            //objects.Add(list);
+
+            //radioBox = window.Find(GUIElementType.GUIObject, automationId: "groupBox1", name: "Selection");
+
+            //radioButton1 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton1", name: "Single");
+            //radioButton2 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton2", name: "Multiple");
+            //radioButton3 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton3", name: "Multiple Extended");
+
+            //objects.Add(radioBox);
+            //objects.Add(radioButton1);
+            //objects.Add(radioButton2);
+            //objects.Add(radioButton3);
+        }
+
+        [TestMethod]
+        public void TestButton()
+        {
             button = window.Find(GUIElementType.Button, name: "button1", automationId: "button1");
-            objects.Add(button);
-
-            editor = window.Find(GUIElementType.Editor, automationId: "textBox1");
-            objects.Add(editor);
-
-            checkBox = window.Find(GUIElementType.CheckBox, automationId: "checkBox1", name: "checkBox1");
-            objects.Add(checkBox);
-
-            dataGrid = window.Find(GUIElementType.Table, automationId: "dataGridView1", name: "DataGridView");
-            objects.Add(dataGrid);
-
-            //dataGridItem1 = dataGrid.Find(GUIElementType.TableItem, name: "Column1 Row 0");
-            //dataGridItem2 = dataGrid.Find(GUIElementType.TableItem, name: "Column2 Row 1");
-            //dataGridItem3 = dataGrid.Find(GUIElementType.TableItem, name: "Column3 Row 2");
-            //dataGridItem4 = dataGrid.Find(GUIElementType.TableItem, name: "Column1 Row 4");
-            //objects.Add(dataGridItem1);
-            //objects.Add(dataGridItem2);
-            //objects.Add(dataGridItem3);
-            //objects.Add(dataGridItem4); does not find them
-
-            label = window.Find(GUIElementType.Label, automationId: "label1");
-            objects.Add(label);
-
-            list = window.Find(GUIElementType.List, automationId: "listBox1");
-            objects.Add(list);
-
-            radioBox = window.Find(GUIElementType.GUIObject, automationId: "groupBox1", name: "Selection");
-
-            radioButton1 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton1", name: "Single");
-            radioButton2 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton2", name: "Multiple");
-            radioButton3 = radioBox.Find(GUIElementType.RadioButton, automationId: "radioButton3", name: "Multiple Extended");
-
-            objects.Add(radioBox);
-            objects.Add(radioButton1);
-            objects.Add(radioButton2);
-            objects.Add(radioButton3);
-        }
-
-
-        [TestMethod]
-        public void TestFocus()
-        {
-
-            foreach (TestObjectBase item in objects)
-            {
-                item.Focus();
-            }
+            button.Invoke();
+            
         }
 
         [TestMethod]
-        public void TestClick()
+        public void TestRadioButton()
         {
+            //radioBox = window.Find(GUIElementType.GUIObject, automationId: "groupBox1", name: "Selection");
 
-            foreach (TestObjectBase item in objects)
-            {
-                item.Click();
-            }
+            radioButton1 = window.Find(GUIElementType.RadioButton, automationId: "radioButton1", name: "Single");
+            //radioButton1 = window.Find(GUIElementType.RadioButton);
+            radioButton2 = window.Find(GUIElementType.RadioButton, automationId: "radioButton2", name: "Multiple");
+            radioButton3 = window.Find(GUIElementType.RadioButton, automationId: "radioButton3", name: "Multiple Extended");
+
+            TestCommonMethods(radioButton1);
+            TestCommonMethods(radioButton2);
+            TestCommonMethods(radioButton3);
+
         }
 
-        [TestMethod]
-        public void TestHover()
+        public void TestCommonMethods(TestObjectBase testObject)
         {
-
-            foreach (TestObjectBase item in objects)
-            {
-                item.Hover();
-            }
+            testObject.Hover(100);
+            testObject.Click();
+            testObject.Focus();   
         }
+
 
         [ClassCleanup]
         public static void cleanup()
         {
             Thread.Sleep(1000);
-            //GUITesting.CloseApplication();
+            GUITesting.CloseApplication();
         }
     }
 
