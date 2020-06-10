@@ -21,8 +21,6 @@ namespace GUITestingSDK.TestObjects
 
         }
 
-        //value pattern, griditem pattern, tableitem
-
         public string GetValue()
         {
             ValuePattern valuePattern = AutoElement.GetCurrentPattern(ValuePattern.Pattern) as ValuePattern;

@@ -24,9 +24,8 @@ namespace GUITestingSDK
         static HyperLink hyperLink;
         static Label label;
         static List list;
-        static ListItem listItem1, listItem2, listItem3, listItem4;
+        static ListItem listItem1, listItem2, listItem3;
         static Menu menu;
-        //MenuItem menuItem;
         static GUIObject radioBox;
         static RadioButton radioButton1, radioButton2, radioButton3;
         static Slider slider;
@@ -40,23 +39,11 @@ namespace GUITestingSDK
         public static void LaunchApp(TestContext testContext)
         {
             //Launch Application
-            GUITesting.LaunchApplication("..\\..\\TestApplications\\WinFormsTestApp.exe");
+            GUITestingUtils.LaunchApplication("..\\..\\TestApplications\\WinFormsTestApp.exe");
 
             //Find the window inside the UIRoot (Desktop)
 
             window = UIRoot.Find(name: "GUI Objects For Testing");
-
-            //editor = window.Find(GUIElementType.Editor, automationId: "textBox1");
-            //objects.Add(editor);
-
-            //checkBox = window.Find(GUIElementType.CheckBox, automationId: "checkBox1", name: "checkBox1");
-
-            //dataGrid = window.Find(GUIElementType.Table, automationId: "dataGridView1", name: "DataGridView");
-
-            ////dataGridItem1 = dataGrid.Find(GUIElementType.TableItem, name: "Column1 Row 0");
-            ////dataGridItem2 = dataGrid.Find(GUIElementType.TableItem, name: "Column2 Row 1");
-            ////dataGridItem3 = dataGrid.Find(GUIElementType.TableItem, name: "Column3 Row 2");
-            ////dataGridItem4 = dataGrid.Find(GUIElementType.TableItem, name: "Column1 Row 4");
 
         }
 
@@ -69,6 +56,23 @@ namespace GUITestingSDK
 
             button.Invoke();
             
+        }
+
+        [TestMethod]
+        public void TestEditor()
+        {
+            editor = window.Find(GUIElementType.Editor, automationId: "textBox1");
+
+            TestCommonMethods(editor);
+
+            string expectedValue = "superlongtestvalue12222222221111111111@@@@@@@@@@";
+
+            editor.SetValue(expectedValue);
+
+            string actualValue = editor.GetValue();
+
+            Assert.AreEqual(expectedValue, actualValue);
+
         }
 
         [TestMethod]
@@ -108,7 +112,6 @@ namespace GUITestingSDK
 
             TestCommonMethods(checkBox);
 
-            checkBox.Invoke();
             checkBox.Toggle();
             checkBox.Toggle();
         }
@@ -181,6 +184,15 @@ namespace GUITestingSDK
             
         }
 
+        [TestMethod]
+        public void TestMenu()
+        {
+            menu = window.Find(GUIElementType.Menu, name: "menuStrip1", automationId: "menuStrip1");
+            menu.Select("File");
+            menu.Select(1);
+
+            TestCommonMethods(menu);
+        }
 
         [TestMethod]
         public void TestLabel()
@@ -189,21 +201,65 @@ namespace GUITestingSDK
             TestCommonMethods(label);
 
             button = window.Find(GUIElementType.Button, name: "button1", automationId: "button1");
-            button.Click();
+            button.Invoke();
+
 
             string expectedValue = "Button state changed.";
             string actualValue = label.GetValue();
             Assert.AreEqual(expectedValue, actualValue);
         }
 
+        [TestMethod]
+        public void TestTree()
+        {
+            tab = window.Find(GUIElementType.Tab, automationId: "tabControl1");
 
+            tab.Select("Tree");
+
+            tree = tab.Find(GUIElementType.Tree, automationId: "treeView1");
+
+            TestCommonMethods(tree);
+
+            treeItem = tree.Find(GUIElementType.TreeItem, name: "Item3");
+
+            TestCommonMethods(treeItem);
+
+            treeItem.Expand();
+            treeItem.Collapse();
+        }
+
+        [TestMethod]
+        public void TestHyperLink()
+        {
+            tab = window.Find(GUIElementType.Tab, automationId: "tabControl1");
+
+            tab.Select("HyperLink");
+
+            hyperLink = tab.Find(GUIElementType.HyperLink, name: "HyperLink");
+
+            TestCommonMethods(hyperLink);
+
+            hyperLink.Invoke();
+            hyperLink.Invoke();
+            hyperLink.Invoke();
+        }
+
+        [TestMethod]
+        public void TestWindow()
+        {
+            TestCommonMethods(window);
+            Assert.IsTrue(window.CanMinimize());
+            Assert.IsTrue(window.CanMaximize());
+            Assert.IsFalse(window.IsTopMost());
+        }
 
         public void TestCommonMethods(TestObjectBase testObject)
         {
             testObject.Hover(100);
             testObject.Click();
             testObject.DoubleClick();
-            testObject.Focus();   
+            testObject.Focus();
+            Assert.IsTrue(testObject.IsEnabled);
         }
 
 
@@ -212,7 +268,7 @@ namespace GUITestingSDK
         public static void cleanup()
         {
             Thread.Sleep(1000);
-            GUITesting.CloseApplication();
+            GUITestingUtils.CloseApplication();
         }
     }
 

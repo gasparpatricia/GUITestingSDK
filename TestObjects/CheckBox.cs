@@ -8,7 +8,7 @@ using System.Windows.Automation;
 
 namespace GUITestingSDK.TestObjects
 {
-    public class CheckBox : TestObjectBase, IInvoke, IToggle
+    public class CheckBox : TestObjectBase, IToggle
     {
 
         public CheckBox()
@@ -26,15 +26,6 @@ namespace GUITestingSDK.TestObjects
             if (togglePattern != null)
             {
                 togglePattern.Toggle();
-            }
-        }
-
-        public void Invoke()
-        {
-            InvokePattern invokePattern = AutoElement.GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
-            if (invokePattern != null)
-            {
-                invokePattern.Invoke();
             }
         }
 

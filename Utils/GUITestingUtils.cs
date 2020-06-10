@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GUITestingSDK
 {
-    public class GUITesting
+    public class GUITestingUtils
     {
         static Process process;
         public static void LaunchApplication(string filePath, string args = "")

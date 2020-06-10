@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GUITestingSDK.TestObjects
 {
+    /// <summary>
+    /// This enum is used to describe all the GUI test objects that the GUITestingSDK supports.
+    /// </summary>
     public enum GUIElementType
     {
         Button, 
@@ -19,7 +22,6 @@ namespace GUITestingSDK.TestObjects
         List, 
         ListItem, 
         Menu, 
-        MenuItem, 
         RadioButton, 
         Slider, 
         Tab, 
