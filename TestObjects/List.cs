@@ -9,20 +9,35 @@ using System.Windows.Automation;
 
 namespace GUITestingSDK.TestObjects
 {
+    /// <summary>
+    /// This class represents a List object from the GUI.
+    /// </summary>
     public class List : TestObjectBase
     {
         private AutomationElement[] listItems = null;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public List()
         {
 
         }
 
+        /// <summary>
+        /// Constructor with AutomationElement parameter used on test object creation.
+        /// Calls the TestObjectBase constructor.
+        /// </summary>
+        /// <param name="element">UIA AutomationElement that corresponds to this instance of the class.</param>
         public List(AutomationElement element) : base(element)
         {
             FindChildren();
         }
 
+        /// <summary>
+        /// This method performs the selection action on the item at the given index inside this object.
+        /// </summary>
+        /// <param name="index"></param>
         public void Select(int index)
         {
             SelectionItemPattern selectionPattern = listItems[index].GetCurrentPattern(SelectionItemPattern.Pattern) as SelectionItemPattern;
@@ -34,6 +49,10 @@ namespace GUITestingSDK.TestObjects
 
         }
 
+        /// <summary>
+        /// This method performs the selection action on the item with the given text inside this object.
+        /// </summary>
+        /// <param name="text"></param>
         public void Select(string text)
         {
             foreach (AutomationElement element in listItems)
@@ -53,6 +72,10 @@ namespace GUITestingSDK.TestObjects
             throw new WrongOperationException("Could not find the item with given text.");
         }
 
+        /// <summary>
+        /// This method initializes the children inside the list. It has by default 10 seconds to find the objects, otherwise throws GUIObjectNotFoundException.
+        /// </summary>
+        /// <param name="seconds"></param>
         private void FindChildren(int seconds = 10)
         {
             int count = 0;

@@ -8,19 +8,33 @@ using System.Windows.Automation;
 
 namespace GUITestingSDK.TestObjects
 {
+    /// <summary>
+    /// This class represents a Table object from the GUI.
+    /// </summary>
     public class Table : TestObjectBase, ITable
     {
-
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Table()
         {
         }
 
+        /// <summary>
+        /// Constructor with AutomationElement parameter used on test object creation.
+        /// Calls the TestObjectBase constructor.
+        /// </summary>
+        /// <param name="element">UIA AutomationElement that corresponds to this instance of the class.</param>
         public Table(AutomationElement element) : base(element)
         {
 
         }
 
-        //Unsupported for WinForms
+        /// <summary>
+        /// This method returns the column count of the object.
+        /// This action is not supported in WinForms dataGrid controls.
+        /// </summary>
+        /// <returns>Returns the number of columns.</returns>
         public int GetColumnCount()
         {
             GridPattern gridPattern = AutoElement.GetCurrentPattern(GridPattern.Pattern) as GridPattern;
@@ -40,7 +54,11 @@ namespace GUITestingSDK.TestObjects
             return 0;
         }
 
-        //Unsupported for WinForms
+        /// <summary>
+        /// This method returns the row count of the object.
+        /// This action is not supported in WinForms dataGrid controls.
+        /// </summary>
+        /// <returns>Returns the number of rows.</returns>
         public int GetRowCount()
         {
             GridPattern gridPattern = AutoElement.GetCurrentPattern(GridPattern.Pattern) as GridPattern;
@@ -59,7 +77,11 @@ namespace GUITestingSDK.TestObjects
             return 0;
         }
 
-        //Unsupported for WinForms
+        /// <summary>
+        /// This method returns the row headers of the object.
+        /// This action is not supported in WinForms dataGrid controls.
+        /// </summary>
+        /// <returns>Returns an array with the object row headers.</returns>
         public string[] GetRowHeaders()
         {
             TablePattern tablePattern = AutoElement.GetCurrentPattern(TablePattern.Pattern) as TablePattern;
@@ -76,7 +98,11 @@ namespace GUITestingSDK.TestObjects
             return null;
         }
 
-        //Unsupported for WinForms
+        /// <summary>
+        /// This method returns the column headers of the object.
+        /// This action is not supported in WinForms dataGrid controls.
+        /// </summary>
+        /// <returns>Returns an array with the object column headers.</returns>
         public string[] GetColumnHeaders()
         {
             TablePattern tablePattern = AutoElement.GetCurrentPattern(TablePattern.Pattern) as TablePattern;
@@ -93,7 +119,12 @@ namespace GUITestingSDK.TestObjects
             return null;
         }
 
-        //Unsupported for WinForms
+        /// <summary>
+        /// This method returns a TableItem object inside the table, with the given row and column indexes.
+        /// </summary>
+        /// <param name="rowindex">TableItem row index</param>
+        /// <param name="columnIndex">TableItem column index</param>
+        /// <returns></returns>
         public TableItem GetItem(int rowindex, int columnIndex)
         {
             GridPattern gridPattern = AutoElement.GetCurrentPattern(GridPattern.Pattern) as GridPattern;

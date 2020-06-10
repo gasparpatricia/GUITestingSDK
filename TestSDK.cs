@@ -20,7 +20,6 @@ namespace GUITestingSDK
         static CheckBox checkBox;
         static Table dataGrid;
         static TableItem dataGridItem1, dataGridItem2, dataGridItem3, dataGridItem4;
-        static GUIObject gUIObject;
         static HyperLink hyperLink;
         static Label label;
         static List list;
@@ -93,7 +92,8 @@ namespace GUITestingSDK
         [TestMethod]
         public void TestRadioButton()
         {
-            //radioBox = window.Find(GUIElementType.GUIObject, automationId: "groupBox1", name: "Selection");
+            radioBox = window.Find(GUIElementType.GUIObject, automationId: "groupBox1", name: "Selection");
+            TestCommonMethods(radioBox);
 
             radioButton1 = window.Find(GUIElementType.RadioButton, automationId: "radioButton1", name: "Single");
             radioButton2 = window.Find(GUIElementType.RadioButton, automationId: "radioButton2", name: "Multiple");
@@ -165,7 +165,7 @@ namespace GUITestingSDK
 
             TestCommonMethods(dataGrid);
 
-            //No supported patterns in WinForms
+            //Not supported in WinForms
             //string[] expectedRowHeaders = { "Row 0", "Row 1", "Row 2", "Row 3", "Row 4", "Row 5"};
             //string[] expectedColumnHeaders = { "Column1", "Column2", "Column3"};
             //string[] actualRowHeaders = dataGrid.GetRowHeaders();
@@ -253,11 +253,26 @@ namespace GUITestingSDK
             Assert.IsFalse(window.IsTopMost());
         }
 
+        [TestMethod]
+        public void TestSlider()
+        {
+            slider = window.Find(GUIElementType.Slider, automationId: "trackBar1");
+            TestCommonMethods(slider);
+
+            //Not supported in winforms
+            //string actualValue = slider.GetValue();
+            //slider.SetValue((Int32.Parse(actualValue) + 1).ToString());
+            //Assert.AreEqual(expectedValue, actualValue);
+        }
+
         public void TestCommonMethods(TestObjectBase testObject)
         {
             testObject.Hover(100);
+            Thread.Sleep(200);
             testObject.Click();
+            Thread.Sleep(200);
             testObject.DoubleClick();
+            Thread.Sleep(200);
             testObject.Focus();
             Assert.IsTrue(testObject.IsEnabled);
         }

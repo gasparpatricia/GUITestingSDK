@@ -10,18 +10,35 @@ using System.Windows.Automation;
 
 namespace GUITestingSDK.TestObjects
 {
+    /// <summary>
+    /// This class represents a Menu object from the GUI.
+    /// </summary>
     public class Menu : TestObjectBase, ISelection
     {
         AutomationElement[] menuItems = null;
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Menu()
         {
         }
 
+        /// <summary>
+        /// Constructor with AutomationElement parameter used on test object creation.
+        /// Calls the TestObjectBase constructor.
+        /// Initializes menu items that can be selected.
+        /// </summary>
+        /// <param name="element">UIA AutomationElement that corresponds to this instance of the class.</param>
         public Menu(AutomationElement element) : base(element)
         {
             FindChildren();
         }
 
+        /// <summary>
+        /// This method performs the selection action on the item at the given index inside this object.
+        /// </summary>
+        /// <param name="index"></param>
         public void Select(int index)
         {
             InvokePattern invokePattern = menuItems[index].GetCurrentPattern(InvokePattern.Pattern) as InvokePattern;
@@ -33,6 +50,10 @@ namespace GUITestingSDK.TestObjects
 
         }
 
+        /// <summary>
+        /// This method performs the selection action on the item with the given text inside this object.
+        /// </summary>
+        /// <param name="text"></param>
         public void Select(string text)
         {
             foreach (AutomationElement element in menuItems)
@@ -52,6 +73,10 @@ namespace GUITestingSDK.TestObjects
             throw new WrongOperationException("Could not find the item with given text.");
         }
 
+        /// <summary>
+        /// This method initializes the children inside the menu. It has by default 10 seconds to find the objects, otherwise throws GUIObjectNotFoundException.
+        /// </summary>
+        /// <param name="seconds"></param>
         private void FindChildren(int seconds = 10)
         {
             int count = 0;
