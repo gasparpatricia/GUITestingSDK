@@ -11,7 +11,7 @@ namespace GUITestingSDK.TestObjects
     /// <summary>
     /// This class represents a Window object from the GUI.
     /// </summary>
-    public class Window : TestObjectBase, IWindow
+     public class Window : TestObjectBase, IWindow
      {
         /// <summary>
         /// Default constructor.

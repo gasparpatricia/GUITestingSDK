@@ -1,4 +1,5 @@
 ﻿using GUITestingSDK.Exceptions;
+using GUITestingSDK.TestObjects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace GUITestingSDK.TestObjects
     /// <summary>
     /// This class represents a List object from the GUI.
     /// </summary>
-    public class List : TestObjectBase
+    public class List : TestObjectBase, ISelection
     {
         private AutomationElement[] listItems = null;
 
