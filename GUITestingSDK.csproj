@@ -54,16 +54,24 @@
   <ItemGroup>
     <Compile Include="TestObjects\Button.cs" />
     <Compile Include="TestObjects\CheckBox.cs" />
+    <Compile Include="TestObjects\Interfaces\IExpandCollapse.cs" />
+    <Compile Include="TestObjects\Interfaces\IInvoke.cs" />
+    <Compile Include="TestObjects\Interfaces\ISelection.cs" />
+    <Compile Include="TestObjects\Interfaces\ISelectionItem.cs" />
+    <Compile Include="TestObjects\Interfaces\ITable.cs" />
+    <Compile Include="TestObjects\Interfaces\IToggle.cs" />
+    <Compile Include="TestObjects\Interfaces\IValue.cs" />
+    <Compile Include="TestObjects\Interfaces\IWindow.cs" />
     <Compile Include="TestObjects\Table.cs" />
     <Compile Include="TestObjects\TableItem.cs" />
     <Compile Include="TestObjects\Editor.cs" />
     <Compile Include="TestObjects\TestObjectRequisites\GUIElementType.cs" />
     <Compile Include="TestObjects\GUIObject.cs" />
     <Compile Include="Exceptions\GUIObjectNotFoundException.cs" />
-    <Compile Include="Utils\GUITesting.cs" />
+    <Compile Include="TestSDK.cs" />
+    <Compile Include="Utils\GUITestingUtils.cs" />
     <Compile Include="Exceptions\GUITestingException.cs" />
     <Compile Include="TestObjects\HyperLink.cs" />
-    <Compile Include="TestObjects\TestObjectRequisites\ITestObjectBase.cs" />
     <Compile Include="TestObjects\Label.cs" />
     <Compile Include="TestObjects\List.cs" />
     <Compile Include="TestObjects\ListItem.cs" />
@@ -74,7 +82,6 @@
     <Compile Include="TestObjects\Slider.cs" />
     <Compile Include="TestObjects\Tab.cs" />
     <Compile Include="TestObjects\TestObjectRequisites\TestObjectBase.cs" />
-    <Compile Include="TestObjects\TestObjectRequisites\ToggleState.cs" />
     <Compile Include="TestObjects\Tree.cs" />
     <Compile Include="TestObjects\TreeItem.cs" />
     <Compile Include="TestObjects\TestObjectRequisites\UIRoot.cs" />
@@ -82,7 +89,9 @@
     <Compile Include="Exceptions\WrongOperationException.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
+    <None Include="TestObjectBaseDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <!-- ... -->

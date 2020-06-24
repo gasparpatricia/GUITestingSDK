@@ -1,4 +1,5 @@
-﻿using Microsoft.Test.Input;
+﻿using GUITestingSDK.Exceptions;
+using Microsoft.Test.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,50 +11,99 @@ using System.Threading.Tasks;
 using System.Windows.Automation;
 using System.Windows.Forms;
 
-namespace GUITestingSDK
+namespace GUITestingSDK.TestObjects
 {
-
-    public class TestObjectBase// : ITestObjectBase
+    /// <summary>
+    /// This class represents the base for all test objects.
+    /// </summary>
+    public class TestObjectBase
     {
+        /// <summary>
+        /// The AutomationElement that corresponds to a test object.
+        /// </summary>
         public AutomationElement AutoElement { get; set; }
+        
+        /// <summary>
+        /// The object process id that usually matches the id for the parent window.
+        /// </summary>
         public int ProcessId { get; set; }
+
+        /// <summary>
+        /// The object name.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The object UI Automation automation id
+        /// </summary>
         public string AutomationId { get; set; }
+
+        /// <summary>
+        /// The object isEnabled property
+        /// </summary>
         public bool IsEnabled { get; set; }
 
-        public GUIElementType guiElementType;
+        /// <summary>
+        /// The object frameworkId (WinForms, WPF etc.)
+        /// </summary>
+        public string FrameworkId { get; set; }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TestObjectBase()
         {
-            IsEnabled = false;
-            AutomationId = "";
+
         }
 
-        public TestObjectBase(AutomationElement automationElement = null)
+
+        /// <summary>
+        /// Constructor with AutomationElement parameter used on test object creation.
+        /// Initializes the properties from the given AutomationElement.
+        /// </summary>
+        /// <param name="automationElement">UIA AutomationElement that corresponds to this instance of the class.</param>
+        public TestObjectBase(AutomationElement automationElement)
         {
             AutoElement = automationElement;
-            Name = automationElement.Current.Name;
-            AutomationId = automationElement.Current.AutomationId;
-            IsEnabled = automationElement.Current.IsEnabled;
-            ProcessId = automationElement.Current.ProcessId;
+            InitializeProperties();
         }
 
+        /// <summary>
+        /// This method initializes the class properties from the class AutomationElement. 
+        /// </summary>
         private void InitializeProperties()
         {
-
+            Name = AutoElement.Current.Name;
+            AutomationId = AutoElement.Current.AutomationId;
+            IsEnabled = AutoElement.Current.IsEnabled;
+            ProcessId = AutoElement.Current.ProcessId;
+            FrameworkId = AutoElement.Current.FrameworkId;
         }
 
-        public dynamic Find(GUIElementType controlType, string name = "", string automationId = "", bool isEnabled = true, int waitSeconds = 25)
+        /// <summary>
+        /// This method is used for finding children test objects inside the current element.
+        /// </summary>
+        /// <param name="controlType">The GUI control type property of the test object to find.</param>
+        /// <param name="name">The name property of the test object to find.</param>
+        /// <param name="automationId">The automationId property of the test object to find.</param>
+        /// <param name="isEnabled">The isEnabled property of the test object to find. Default is -1. True is 1. False is 0.</param>
+        /// <param name="waitSeconds">The time in seconds allowed for the test object search.</param>
+        /// <returns>Returns a test object with the GUITestingSDK class that corresponds to the given GUIElementType.</returns>
+        public dynamic Find(GUIElementType controlType, string name = "", string automationId = "", int isEnabled = -1, int waitSeconds = 25)
         {
 
             int count = 0;
             AutomationElement childTestObject = null;
 
-            Condition[] conditions = ConditionBuilder(controlType: controlType, name: name, automationId: automationId);
+            Condition[] conditions = null;
+
+            if(isEnabled == -1) conditions = ConditionBuilder(controlType: controlType, name: name, automationId: automationId);
+            else if(isEnabled == 0) conditions = ConditionBuilder(controlType: controlType, name: name, automationId: automationId, isEnabled = 0);
+            else if(isEnabled == 1) conditions = ConditionBuilder(controlType: controlType, name: name, automationId: automationId, isEnabled = 1);
 
             AndCondition andCondition = null;
 
-            if (conditions.Count() == 0) throw new GUITestingException("Can not find GUI element with no given properties.");
+            if (conditions.Count() == 0) throw new GUITestingException("Can not find GUI element without given properties.");
 
             if (conditions.Count() > 1) andCondition = new AndCondition(conditions);
 
@@ -99,6 +149,11 @@ namespace GUITestingSDK
             throw new GUIObjectNotFoundException("No object found with the given properties. Try changing the identification properties.");
         }
 
+        /// <summary>
+        /// This method converts the GUITestingSDK type to a UIA Automation.ControlType. Used internally to map objects.
+        /// </summary>
+        /// <param name="controlType"></param>
+        /// <returns>Returns a UIA ControlType. </returns>
         private ControlType GetControlType(GUIElementType controlType)
         {
             switch (controlType)
@@ -139,9 +194,6 @@ namespace GUITestingSDK
                 case GUIElementType.Menu:
                     return ControlType.MenuBar; //or menu, more testing needed
 
-                case GUIElementType.MenuItem:
-                    return ControlType.MenuItem;
-
                 case GUIElementType.Slider:
                     return ControlType.Slider;
 
@@ -162,7 +214,15 @@ namespace GUITestingSDK
             }
         }
 
-        private Condition[] ConditionBuilder(GUIElementType controlType, string name = "", string automationId = "", bool isEnabled = true)
+        /// <summary>
+        /// This method builds an array of PropertyConditon conditions to find the objects with the given properties.
+        /// </summary>
+        /// <param name="controlType">The GUI control type property of the test object to find.</param>
+        /// <param name="name">The name property of the test object to find.</param>
+        /// <param name="automationId">The automationId property of the test object to find.</param>
+        /// <param name="isEnabled">The isEnabled property of the test object to find. Default is -1. True is 1. False is 0.</param>
+        /// <returns>Returns an array of UIA Condition objects used for searching inside the UIA tree. </returns>
+        private Condition[] ConditionBuilder(GUIElementType controlType, string name = "", string automationId = "", int isEnabled = -1)
         {
             List<PropertyCondition> conditions = new List<PropertyCondition>();
             if (name != "")
@@ -179,11 +239,19 @@ namespace GUITestingSDK
 
             if (type != null) conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30003), type));
 
-            //conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30010), isEnabled)); must treat case of object for which does not apply
+            else if (isEnabled == 0) conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30010), false));
+
+            else if (isEnabled == 1) conditions.Add(new PropertyCondition(AutomationProperty.LookupById(30010), true));
 
             return conditions.ToArray();
         }
 
+        /// <summary>
+        /// This method creates an instance of the test object class corresponding with the given GUIElementType.
+        /// </summary>
+        /// <param name="typeName">The test object type.</param>
+        /// <param name="testObject">The UIA AutomationElement for the object to be created.</param>
+        /// <returns></returns>
         private static dynamic CreateByTypeName(GUIElementType typeName, AutomationElement testObject)
         {
             var type = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
@@ -197,10 +265,11 @@ namespace GUITestingSDK
             return Activator.CreateInstance(type, testObject);
         }
 
-
+        /// <summary>
+        /// This method performs a single left-click on the object.
+        /// </summary>
         public void Click()
         {
-            //System.Windows.Point p = AutoElement.GetClickablePoint(); does not work while sharing screen
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
             int x = (int)rectangle.X + (int)rectangle.Width / 2;
             int y = (int)rectangle.Y + (int)rectangle.Height / 2;
@@ -209,6 +278,9 @@ namespace GUITestingSDK
             Mouse.Click(MouseButton.Left);
         }
 
+        /// <summary>
+        /// This method performs a double left-click on the object.
+        /// </summary>
         public void DoubleClick()
         {
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
@@ -219,6 +291,9 @@ namespace GUITestingSDK
             Mouse.DoubleClick(MouseButton.Left);
         }
 
+        /// <summary>
+        /// This method performs a single right-click on the object.
+        /// </summary>
         public void RightClick()
         {
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
@@ -229,9 +304,12 @@ namespace GUITestingSDK
             Mouse.Click(MouseButton.Right);
         }
 
+        /// <summary>
+        /// This method highlights the object in blue and brings it to focus.
+        /// </summary>
         public void Focus()
         {
-            if (!AutoElement.Current.ControlType.Equals(ControlType.Text)) AutoElement.SetFocus();
+            if (AutoElement.Current.IsKeyboardFocusable) AutoElement.SetFocus();
 
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
             System.Drawing.Size newSize = new System.Drawing.Size((int)rectangle.Size.Width, (int)rectangle.Size.Height);
@@ -266,9 +344,13 @@ namespace GUITestingSDK
                 g.Dispose();
 
             }
-            if (!AutoElement.Current.ControlType.Equals(ControlType.Text)) AutoElement.SetFocus();
+            if (AutoElement.Current.IsKeyboardFocusable) AutoElement.SetFocus();
         }
 
+        /// <summary>
+        /// This method moves the cursor on top of the object and hovers for a given time.
+        /// </summary>
+        /// <param name="waitMiliseconds">Hover time in miliseconds.</param>
         public void Hover(int waitMiliseconds = 1000)
         {
             System.Windows.Rect rectangle = AutoElement.Current.BoundingRectangle;
